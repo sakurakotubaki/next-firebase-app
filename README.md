@@ -47,3 +47,25 @@ export default function RootLayout({
   )
 }
 ```
+
+## 環境変数の設定
+プロジェクト直下に`.env`を作成する。
+```
+HOGE = "環境変数HOGE"
+```
+
+読み込むときは、`process.env.HOGE`といった感じで書く
+```tsx
+import { Box } from "@chakra-ui/react"
+
+
+export default function Blog() {
+  return (
+    <div>
+      <Box m={2}>{process.env.HOGE}</Box>
+      <Box w='100%' h='200px' bgGradient='linear(to-r, green.200, pink.500)' />
+    </div>
+  );
+}
+```
+
