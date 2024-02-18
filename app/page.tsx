@@ -1,11 +1,10 @@
-import { Box } from "@chakra-ui/react"
+import { Flex } from "@chakra-ui/react";
+import AuthButton from "./AuthButton";
 
-
-export default function Blog() {
+export default function SignIn() {
   return (
-    <div>
-      <Box m={2}>{process.env.HOGE}</Box>
-      <Box w='100%' h='200px' bgGradient='linear(to-r, green.200, pink.500)' />
-    </div>
+    <Flex width="100vw" height="100vh" alignItems="center" justifyContent="center">
+      <AuthButton />
+    </Flex>
   );
 }

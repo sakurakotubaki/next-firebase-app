@@ -69,3 +69,118 @@ export default function Blog() {
 }
 ```
 
+### Next.jsの場合は、NEXT_PUBLIC_をつけなければ、読み込めない!
+以下のように`.env`に記述
+```
+NEXT_PUBLIC_API_KEY = "****************"
+NEXT_PUBLIC_AUTH_DOMAIN = ""****************""
+NEXT_PUBLIC_PROJECT_ID = ""****************""
+NEXT_PUBLIC_NEXT_PUBLIC_STORAGE_BUCKET = ""****************""
+MESSAGEING_SENDER_ID = ""****************"",
+NEXT_PUBLIC_APP_ID = ""****************""
+NEXT_PUBLIC_MEASUREMENT_ID = ""****************""
+```
+
+読み込むファイル
+```ts
+import { initializeApp, getApps } from "firebase/app";
+import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {
+  apiKey: process.env.NEXT_PUBLIC_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_APP_ID,
+  measurementId: process.env.MEASUREMENT_ID,
+};
+
+if (!getApps()?.length) {
+  initializeApp(firebaseConfig);
+}
+
+export const auth = getAuth();
+export const db = getFirestore();
+```
+
+## Firebaseを導入する
+
+firebase の package を追加する
+
+```bash
+npm install firebase
+```
+
+## React Iconを追加する
+npmのpackageを追加する。
+```bash
+npm install react-icons --save
+```
+
+[ReactIconなるものを導入しみた](https://react-icons.github.io/react-icons/search/#q=Google)
+
+以下のようなコードを書く:
+```tsx
+import { Button } from "@chakra-ui/react";
+import { FcGoogle } from "react-icons/fc";
+
+export default function SignIn() {
+  return (
+    <div>
+      <Button rightIcon={<FcGoogle />} colorScheme="blue" variant="outline">
+        Google
+      </Button>
+    </div>
+  );
+}
+```
+
+appディレクトリでは、next/routerではなく、next/navigationを使う
+```tsx
+"use client";
+
+import { Button } from "@chakra-ui/react";
+import { FcGoogle } from "react-icons/fc";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { useState } from "react";
+import { auth } from "./infra/firebase";
+import { useRouter } from "next/navigation";// appディレクトリでは、next/routerではなく、next/navigationを使う
+
+const provider = new GoogleAuthProvider();
+
+export default function AuthButton() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+  const signInWithGoogle = () => {
+    setLoading(true);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result.user);
+        router.push("/blog");
+      })
+      .catch((error) => {
+        console.log(error.message);
+        window.alert("ログインに失敗しました");
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  return (
+    <div>
+      <Button
+        rightIcon={<FcGoogle />}
+        colorScheme="blue"
+        variant="outline"
+        onClick={signInWithGoogle}
+      >
+        Google
+      </Button>
+    </div>
+  );
+}
+```
