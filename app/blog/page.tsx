@@ -5,6 +5,7 @@ import { signOut } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../infra/firebase";
 import { useRouter } from "next/navigation";
+import { IoIosLogOut } from "react-icons/io";
 
 export default function Home() {
   const router = useRouter();
@@ -28,7 +29,9 @@ export default function Home() {
 
   return (
     <div>
-      <Button colorScheme="blue"
+      <Button
+       rightIcon={<IoIosLogOut />}
+       colorScheme="blue"
        variant="outline"
         onClick={handleLogout} isLoading={loading}
         ml={4}
