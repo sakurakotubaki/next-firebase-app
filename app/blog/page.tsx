@@ -6,6 +6,7 @@ import { useState } from "react";
 import { auth } from "../infra/firebase";
 import { useRouter } from "next/navigation";
 import { IoIosLogOut } from "react-icons/io";
+import CreateBlog from "./CreateBlog";
 
 export default function Home() {
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function Home() {
         >
         ログアウト
       </Button>
+      <CreateBlog />
     </div>
   );
 }
