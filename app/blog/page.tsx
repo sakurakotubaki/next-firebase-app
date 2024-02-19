@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { Button } from "@chakra-ui/react";
 import { signOut } from "firebase/auth";
@@ -21,7 +21,7 @@ export default function Home() {
       })
       .catch((error) => {
         console.log(error.message);
-        window.alert('ログアウトに失敗しました');
+        window.alert("ログアウトに失敗しました");
       })
       .finally(() => {
         setLoading(false);
@@ -31,14 +31,24 @@ export default function Home() {
   return (
     <div>
       <Button
-       rightIcon={<IoIosLogOut />}
-       colorScheme="blue"
-       variant="outline"
-        onClick={handleLogout} isLoading={loading}
+        rightIcon={<IoIosLogOut />}
+        colorScheme="blue"
+        variant="outline"
+        onClick={handleLogout}
+        isLoading={loading}
         ml={4}
         mt={4}
-        >
+      >
         ログアウト
+      </Button>
+      <Button
+        colorScheme="blue"
+        variant="outline"
+        onClick={() => router.push("/blog/about")}
+        ml={4}
+        mt={4}
+      >
+        ブログ一覧
       </Button>
       <CreateBlog />
     </div>
